@@ -26,9 +26,19 @@ variable "frontend_price_class" {
   default     = "PriceClass_100"
 }
 
+variable "api_base_url" {
+  type        = string
+  description = "API Gateway base URL exposed to the frontend runtime config."
+}
+
+variable "max_file_size_mb" {
+  type        = number
+  description = "Maximum file size exposed to the frontend runtime config."
+  default     = 100
+}
+
 variable "tags" {
   type        = map(string)
   description = "Common tags."
   default     = {}
 }
-

@@ -1,6 +1,10 @@
 locals {
   name        = "${var.project_name}-${var.environment}"
   bucket_name = var.frontend_bucket_name != "" ? var.frontend_bucket_name : "${local.name}-frontend"
+  runtime_config_json = jsonencode({
+    apiBaseUrl    = trimsuffix(var.api_base_url, "/")
+    maxFileSizeMb = var.max_file_size_mb
+  })
 }
 
 resource "aws_s3_bucket" "frontend" {
@@ -28,6 +32,17 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "frontend" {
       sse_algorithm = "AES256"
     }
   }
+}
+
+resource "aws_s3_object" "runtime_config" {
+  bucket        = aws_s3_bucket.frontend.id
+  key           = "runtime-config.json"
+  content       = local.runtime_config_json
+  content_type  = "application/json"
+  cache_control = "no-store, max-age=0"
+  etag          = md5(local.runtime_config_json)
+
+  tags = var.tags
 }
 
 resource "aws_cloudfront_origin_access_control" "frontend" {
@@ -114,4 +129,3 @@ resource "aws_s3_bucket_policy" "frontend" {
   bucket = aws_s3_bucket.frontend.id
   policy = data.aws_iam_policy_document.frontend_bucket.json
 }
-
