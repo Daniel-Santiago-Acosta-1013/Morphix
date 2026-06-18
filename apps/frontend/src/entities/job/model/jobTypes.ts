@@ -8,14 +8,6 @@ export type JobStatus =
   | 'EXPIRED'
   | 'DELETED';
 
-export interface ConversionPair {
-  source: string;
-  target: string;
-  label: string;
-  engine: string;
-  category: 'documents' | 'images' | 'media';
-}
-
 export interface JobRecord {
   job_id: string;
   user_id: string;

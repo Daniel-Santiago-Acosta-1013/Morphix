@@ -1,4 +1,4 @@
-import type { ConversionPair } from './types';
+import type { ConversionPair } from './conversionTypes';
 
 export const SUPPORTED_CONVERSIONS: ConversionPair[] = [
   { source: 'docx', target: 'pdf', label: 'Word a PDF', engine: 'LibreOffice', category: 'documents' },
@@ -18,16 +18,15 @@ export const SUPPORTED_CONVERSIONS: ConversionPair[] = [
   { source: 'mp3', target: 'wav', label: 'MP3 a WAV', engine: 'FFmpeg', category: 'media' },
 ];
 
-export function normalizeExtension(name: string): string {
-  const last = name.split('.').pop();
-  return last?.toLowerCase() === 'jpeg' ? 'jpg' : last?.toLowerCase() || '';
-}
-
 export function targetsForSource(source: string): ConversionPair[] {
   return SUPPORTED_CONVERSIONS.filter((conversion) => conversion.source === source);
 }
 
 export function acceptedExtensions(): string {
   return Array.from(new Set(SUPPORTED_CONVERSIONS.map((conversion) => `.${conversion.source}`))).join(',');
+}
+
+export function findConversionPair(source?: string, target?: string): ConversionPair | undefined {
+  return SUPPORTED_CONVERSIONS.find((conversion) => conversion.source === source && conversion.target === target);
 }
 
