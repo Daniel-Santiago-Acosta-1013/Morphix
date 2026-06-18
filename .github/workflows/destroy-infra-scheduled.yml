@@ -1,4 +1,4 @@
-name: Destroy Dev Infrastructure
+name: Scheduled Infra Cleanup
 
 on:
   schedule:
@@ -22,24 +22,8 @@ env:
   TERRAGRUNT_VERSION: 0.98.0
 
 jobs:
-  guard:
-    runs-on: ubuntu-latest
-    outputs:
-      should_destroy: ${{ steps.scope.outputs.should_destroy }}
-    steps:
-      - id: scope
-        env:
-          ENABLE_SCHEDULED_DESTROY: "false"
-        run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "workflow_dispatch" || "${ENABLE_SCHEDULED_DESTROY}" == "true" ]]; then
-            echo "should_destroy=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_destroy=false" >> "$GITHUB_OUTPUT"
-          fi
-
   destroy:
-    needs: guard
-    if: needs.guard.outputs.should_destroy == 'true'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
