@@ -149,6 +149,15 @@ jobs:
             echo "::endgroup::"
           done
 
+      - name: Resolve browser origins
+        if: needs.scope.outputs.deploy_api == 'true' || needs.scope.outputs.deploy_worker == 'true'
+        run: bash .github/scripts/resolve-browser-origins.sh
+
+      - name: Apply browser upload CORS
+        if: needs.scope.outputs.deploy_api == 'true' || needs.scope.outputs.deploy_worker == 'true'
+        working-directory: infra/terraform/live/shared/storage
+        run: terragrunt apply -input=false -no-color -auto-approve
+
       - name: Test worker
         if: needs.scope.outputs.deploy_worker == 'true'
         run: uv run --group dev pytest apps/worker/tests

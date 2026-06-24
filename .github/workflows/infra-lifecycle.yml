@@ -119,6 +119,20 @@ jobs:
             echo "::endgroup::"
           }
 
+          refresh_browser_cors() {
+            echo "::group::resolve browser origins"
+            source .github/scripts/resolve-browser-origins.sh
+            echo "::endgroup::"
+
+            if [[ -z "${FRONTEND_ORIGIN:-}" ]]; then
+              echo "Frontend origin was not resolved; skipping browser CORS refresh."
+              return 0
+            fi
+
+            run_apply_stack "infra/terraform/live/shared/storage"
+            run_apply_stack "infra/terraform/live/services/api"
+          }
+
           ACTION="${{ inputs.action }}"
           if [[ "${ACTION}" == "destroy" || "${ACTION}" == "destroy-and-recreate" ]]; then
             if [[ "${{ inputs.confirm_destroy }}" != "destroy morphix dev" ]]; then
@@ -134,10 +148,12 @@ jobs:
             for stack in "${STACKS[@]}"; do run_stack plan "${stack}"; done
           elif [[ "${ACTION}" == "apply" ]]; then
             for stack in "${STACKS[@]}"; do run_apply_stack "${stack}"; done
+            refresh_browser_cors
           elif [[ "${ACTION}" == "destroy" ]]; then
             for (( idx=${#STACKS[@]}-1 ; idx>=0 ; idx-- )); do run_destroy_stack "${STACKS[idx]}"; done
           elif [[ "${ACTION}" == "destroy-and-recreate" ]]; then
             for (( idx=${#STACKS[@]}-1 ; idx>=0 ; idx-- )); do run_destroy_stack "${STACKS[idx]}"; done
             unset FRONTEND_FORCE_DESTROY STORAGE_FORCE_DESTROY WORKER_REPOSITORY_FORCE_DELETE
             for stack in "${STACKS[@]}"; do run_apply_stack "${stack}"; done
+            refresh_browser_cors
           fi
