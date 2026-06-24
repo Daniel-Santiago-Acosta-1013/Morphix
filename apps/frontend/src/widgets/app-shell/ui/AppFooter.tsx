@@ -18,9 +18,11 @@ export function AppFooter() {
         <div className="flex flex-wrap items-center gap-3 md:justify-end">
           <span>Privado por sesión</span>
           <Separator orientation="vertical" className="h-4" />
+          <span>15 conversiones</span>
+          <Separator orientation="vertical" className="h-4" />
           <span>Hasta 100 MB</span>
           <Separator orientation="vertical" className="h-4" />
-          <span>Modo oscuro</span>
+          <span>Descarga inmediata</span>
         </div>
       </div>
     </footer>
