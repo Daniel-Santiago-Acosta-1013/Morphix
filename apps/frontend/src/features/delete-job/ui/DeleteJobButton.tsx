@@ -21,12 +21,12 @@ export function DeleteJobButton({ jobId, onDeleted, onError }: DeleteJobButtonPr
           type="button"
           onClick={() => deletion.mutate(jobId)}
           disabled={deletion.isPending}
-          aria-label="Eliminar job"
+          aria-label="Eliminar conversión"
         >
           {deletion.isPending ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Trash2 className="size-4" aria-hidden="true" />}
         </Button>
       </TooltipTrigger>
-      <TooltipContent>Eliminar job</TooltipContent>
+      <TooltipContent>Eliminar conversión</TooltipContent>
     </Tooltip>
   );
 }

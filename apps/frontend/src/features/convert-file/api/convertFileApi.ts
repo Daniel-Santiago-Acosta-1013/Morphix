@@ -23,14 +23,20 @@ export async function getUploadUrl(jobId: string, contentType: string): Promise<
 }
 
 export async function uploadFile(upload: UploadUrlResponse, file: File): Promise<void> {
-  const response = await fetch(upload.upload_url, {
-    method: upload.method,
-    headers: upload.headers,
-    body: file,
-  });
+  let response: Response;
+
+  try {
+    response = await fetch(upload.upload_url, {
+      method: upload.method,
+      headers: upload.headers,
+      body: file,
+    });
+  } catch {
+    throw new Error('No se pudo cargar el archivo. Inténtalo de nuevo en unos minutos.');
+  }
 
   if (!response.ok) {
-    throw new Error(`Upload failed with status ${response.status}`);
+    throw new Error(`La carga del archivo no se pudo completar. Código ${response.status}.`);
   }
 }
 

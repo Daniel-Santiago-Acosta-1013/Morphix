@@ -1,8 +1,8 @@
 import type { JobStatus } from './jobTypes';
 
 export const statusLabel: Record<JobStatus, string> = {
-  PENDING: 'Pendiente',
-  UPLOAD_REQUESTED: 'Subida autorizada',
+  PENDING: 'Preparando',
+  UPLOAD_REQUESTED: 'Listo para cargar',
   UPLOADED: 'Archivo cargado',
   PROCESSING: 'Procesando',
   COMPLETED: 'Completado',

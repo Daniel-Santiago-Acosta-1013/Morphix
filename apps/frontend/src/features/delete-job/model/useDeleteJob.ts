@@ -12,7 +12,7 @@ export function useDeleteJob(onDeleted?: (jobId: string) => void, onError?: (mes
       onDeleted?.(jobId);
     },
     onError: (error) => {
-      onError?.(error instanceof Error ? error.message : 'No se pudo eliminar el job.');
+      onError?.(error instanceof Error ? error.message : 'No se pudo eliminar la conversión.');
     },
   });
 }

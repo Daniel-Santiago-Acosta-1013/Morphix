@@ -14,9 +14,9 @@ export function JobsHistoryWidget() {
   const [actionError, setActionError] = useState<string | null>(null);
 
   return (
-    <section aria-label="Conversion history">
+    <section id="history" aria-label="Historial de conversiones" className="scroll-mt-24">
       <Card className="border-border/70 bg-card/85 shadow-2xl shadow-black/20 backdrop-blur">
-        <CardHeader>
+        <CardHeader className="border-b border-border/45 pb-5">
           <div className="space-y-1">
             <span className="text-xs font-semibold tracking-normal text-muted-foreground uppercase">Historial</span>
             <CardTitle className="text-2xl font-semibold tracking-normal sm:text-3xl">Conversiones recientes</CardTitle>
@@ -37,7 +37,7 @@ export function JobsHistoryWidget() {
                   <Clock3 className="size-4" aria-hidden="true" />
                 </EmptyMedia>
                 <EmptyTitle>Sin conversiones registradas</EmptyTitle>
-                <EmptyDescription>No hay jobs para este usuario.</EmptyDescription>
+                <EmptyDescription>Todavía no hay archivos procesados en esta sesión.</EmptyDescription>
               </EmptyHeader>
             </Empty>
           )}

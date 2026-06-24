@@ -9,10 +9,10 @@ interface ConversionProgressProps {
 
 export function ConversionProgress({ currentJob, flowState }: ConversionProgressProps) {
   const progressSteps = [
-    { key: 'creating', label: 'Job', active: Boolean(currentJob), done: Boolean(currentJob) },
-    { key: 'uploading', label: 'Upload', active: flowState === 'uploading', done: ['starting', 'polling', 'ready'].includes(flowState) },
-    { key: 'polling', label: 'Worker', active: flowState === 'polling', done: flowState === 'ready' },
-    { key: 'ready', label: 'Download', active: flowState === 'ready', done: flowState === 'ready' },
+    { key: 'creating', label: 'Archivo', active: Boolean(currentJob), done: Boolean(currentJob) },
+    { key: 'uploading', label: 'Carga', active: flowState === 'uploading', done: ['starting', 'polling', 'ready'].includes(flowState) },
+    { key: 'polling', label: 'Conversión', active: flowState === 'polling', done: flowState === 'ready' },
+    { key: 'ready', label: 'Resultado', active: flowState === 'ready', done: flowState === 'ready' },
   ];
 
   return (

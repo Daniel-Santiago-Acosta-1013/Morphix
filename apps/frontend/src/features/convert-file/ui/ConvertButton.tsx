@@ -14,7 +14,7 @@ export function ConvertButton({ disabled, flowState, onClick }: ConvertButtonPro
   return (
     <Button className="h-11 w-full text-sm font-semibold" size="lg" type="button" disabled={disabled} onClick={onClick}>
       {busy ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <RefreshCw className="size-4" aria-hidden="true" />}
-      <span>{flowState === 'polling' ? 'Procesando' : 'Iniciar conversion'}</span>
+      <span>{flowState === 'polling' ? 'Procesando' : 'Iniciar conversión'}</span>
     </Button>
   );
 }

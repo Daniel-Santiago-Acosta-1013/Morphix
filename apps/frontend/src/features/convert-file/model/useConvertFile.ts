@@ -83,7 +83,7 @@ export function useConvertFile() {
       void queryClient.invalidateQueries({ queryKey: jobQueries.list() });
     } catch (conversionError) {
       setFlowState('failed');
-      setError(conversionError instanceof Error ? conversionError.message : 'La conversion no pudo iniciarse.');
+      setError(conversionError instanceof Error ? conversionError.message : 'La conversión no pudo iniciarse.');
     }
   }
 
@@ -101,4 +101,3 @@ export function useConvertFile() {
     setError,
   };
 }
-

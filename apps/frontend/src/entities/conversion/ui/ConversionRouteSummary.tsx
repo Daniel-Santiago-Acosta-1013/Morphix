@@ -15,10 +15,10 @@ export function ConversionRouteSummary({ pair }: ConversionRouteSummaryProps) {
       </ItemMedia>
       <ItemContent>
         <ItemTitle>{pair.label}</ItemTitle>
-        <ItemDescription>{pair.engine} en worker ECS Fargate</ItemDescription>
+        <ItemDescription>{pair.description}</ItemDescription>
       </ItemContent>
       <Badge variant="outline" className="border-primary/35 text-primary">
-        Ruta
+        Formato
       </Badge>
     </Item>
   );

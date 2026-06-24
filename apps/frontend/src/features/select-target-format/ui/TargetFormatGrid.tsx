@@ -27,7 +27,7 @@ export function TargetFormatGrid({ options, targetFormat, onSelect }: TargetForm
         >
           <ConversionIcon category={option.category} className="size-5 text-primary" />
           <span className="text-base font-semibold">{option.target.toUpperCase()}</span>
-          <span className="text-xs text-muted-foreground">{option.engine}</span>
+          <span className="text-xs leading-snug text-muted-foreground">{option.description}</span>
         </Button>
       ))}
     </div>
