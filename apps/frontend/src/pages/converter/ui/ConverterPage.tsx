@@ -7,7 +7,7 @@ export function ConverterPage() {
     <div id="top" className="min-h-screen">
       <AppHeader />
       <main className="mx-auto grid w-full max-w-6xl gap-5 px-4 py-5 sm:px-6 lg:py-8">
-        <div className="mx-auto w-full max-w-5xl">
+        <div className="w-full">
           <ConversionWorkspace />
         </div>
         <JobsHistoryWidget />

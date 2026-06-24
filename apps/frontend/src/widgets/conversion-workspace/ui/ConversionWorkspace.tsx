@@ -9,12 +9,10 @@ import { env } from '../../../shared/config/env';
 import { formatBytes } from '../../../shared/lib/formatBytes';
 import { cn } from '../../../shared/lib/utils';
 import { Alert, AlertDescription } from '../../../shared/ui/alert';
-import { Button } from '../../../shared/ui/button';
-import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '../../../shared/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../shared/ui/card';
 import { Input } from '../../../shared/ui/input';
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '../../../shared/ui/item';
 import { Label } from '../../../shared/ui/label';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../../../shared/ui/tooltip';
 
 export function ConversionWorkspace() {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -31,16 +29,6 @@ export function ConversionWorkspace() {
             <CardTitle className="text-2xl font-semibold tracking-normal sm:text-3xl">Carga tu archivo</CardTitle>
             <CardDescription>Selecciona el formato final y sigue el avance desde esta vista.</CardDescription>
           </div>
-          <CardAction>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="outline" size="icon-lg" type="button" onClick={() => inputRef.current?.click()} aria-label="Seleccionar archivo">
-                  <UploadCloud className="size-5" aria-hidden="true" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Seleccionar archivo</TooltipContent>
-            </Tooltip>
-          </CardAction>
         </CardHeader>
 
         <CardContent className="grid gap-5">
