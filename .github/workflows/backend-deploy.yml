@@ -128,6 +128,27 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Bootstrap Terraform remote state
+        run: bash .github/scripts/bootstrap-terraform-state.sh
+
+      - name: Initialize backend dependency stacks
+        shell: bash
+        run: |
+          set -euo pipefail
+          STACKS=(
+            "infra/terraform/live/shared/network"
+            "infra/terraform/live/shared/storage"
+            "infra/terraform/live/shared/jobs-db"
+            "infra/terraform/live/shared/ecs"
+            "infra/terraform/live/services/worker"
+          )
+
+          for stack in "${STACKS[@]}"; do
+            echo "::group::init ${stack}"
+            (cd "${stack}" && terragrunt init -input=false -no-color -reconfigure)
+            echo "::endgroup::"
+          done
+
       - name: Test worker
         if: needs.scope.outputs.deploy_worker == 'true'
         run: uv run --group dev pytest apps/worker/tests

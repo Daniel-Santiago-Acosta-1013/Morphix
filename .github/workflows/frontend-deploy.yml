@@ -51,6 +51,28 @@ jobs:
           aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Bootstrap Terraform remote state
+        run: bash .github/scripts/bootstrap-terraform-state.sh
+
+      - name: Initialize frontend dependency stacks
+        shell: bash
+        run: |
+          set -euo pipefail
+          STACKS=(
+            "infra/terraform/live/shared/network"
+            "infra/terraform/live/shared/storage"
+            "infra/terraform/live/shared/jobs-db"
+            "infra/terraform/live/shared/ecs"
+            "infra/terraform/live/services/worker"
+            "infra/terraform/live/services/api"
+          )
+
+          for stack in "${STACKS[@]}"; do
+            echo "::group::init ${stack}"
+            (cd "${stack}" && terragrunt init -input=false -no-color -reconfigure)
+            echo "::endgroup::"
+          done
+
       - name: Apply frontend infrastructure
         working-directory: infra/terraform/envs/frontend
         run: terragrunt apply -input=false -no-color -auto-approve
