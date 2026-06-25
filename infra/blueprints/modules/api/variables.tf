@@ -20,6 +20,12 @@ variable "api_package_path" {
   default     = ""
 }
 
+variable "api_layer_package_path" {
+  type        = string
+  description = "Local path to the Lambda dependencies layer zip package. If empty, Lambdas run without an attached dependency layer."
+  default     = ""
+}
+
 variable "state_machine_definition_path" {
   type        = string
   description = "Local path to the API-owned Step Functions ASL JSON definition."

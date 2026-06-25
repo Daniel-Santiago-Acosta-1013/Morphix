@@ -10,6 +10,14 @@ output "api_lambda_name" {
   value = length(aws_lambda_function.api) > 0 ? aws_lambda_function.api[0].function_name : ""
 }
 
+output "api_dependencies_layer_arn" {
+  value = length(aws_lambda_layer_version.api_dependencies) > 0 ? aws_lambda_layer_version.api_dependencies[0].arn : ""
+}
+
+output "api_dependencies_layer_name" {
+  value = length(aws_lambda_layer_version.api_dependencies) > 0 ? aws_lambda_layer_version.api_dependencies[0].layer_name : ""
+}
+
 output "websocket_endpoint" {
   value = length(aws_apigatewayv2_api.websocket) > 0 ? "wss://${aws_apigatewayv2_api.websocket[0].id}.execute-api.${var.aws_region}.amazonaws.com/${aws_apigatewayv2_stage.websocket[0].name}" : ""
 }

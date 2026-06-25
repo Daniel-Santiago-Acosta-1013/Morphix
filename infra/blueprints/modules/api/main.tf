@@ -1,6 +1,7 @@
 locals {
   name                              = "${var.project_name}-${var.environment}"
   create_runtime                    = var.api_package_path != ""
+  create_dependencies_layer         = local.create_runtime && var.api_layer_package_path != ""
   log_group                         = "/aws/lambda/${local.name}-api"
   websocket_log_group               = "/aws/lambda/${local.name}-websocket"
   broadcaster_log_group             = "/aws/lambda/${local.name}-realtime-broadcaster"
@@ -151,6 +152,17 @@ resource "aws_iam_role_policy" "api" {
   policy = data.aws_iam_policy_document.api.json
 }
 
+resource "aws_lambda_layer_version" "api_dependencies" {
+  count = local.create_dependencies_layer ? 1 : 0
+
+  layer_name               = "${local.name}-api-dependencies"
+  description              = "Python dependencies for Morphix API Lambdas"
+  filename                 = var.api_layer_package_path
+  source_code_hash         = filebase64sha256(var.api_layer_package_path)
+  compatible_runtimes      = ["python3.11"]
+  compatible_architectures = ["x86_64"]
+}
+
 resource "aws_lambda_function" "api" {
   count = local.create_runtime ? 1 : 0
 
@@ -164,6 +176,7 @@ resource "aws_lambda_function" "api" {
   architectures    = ["x86_64"]
   timeout          = 30
   memory_size      = 512
+  layers           = local.create_dependencies_layer ? [aws_lambda_layer_version.api_dependencies[0].arn] : []
 
   environment {
     variables = {
@@ -200,6 +213,7 @@ resource "aws_lambda_function" "websocket_connections" {
   architectures    = ["x86_64"]
   timeout          = 10
   memory_size      = 256
+  layers           = local.create_dependencies_layer ? [aws_lambda_layer_version.api_dependencies[0].arn] : []
 
   environment {
     variables = {
@@ -230,6 +244,7 @@ resource "aws_lambda_function" "realtime_broadcaster" {
   architectures    = ["x86_64"]
   timeout          = 30
   memory_size      = 256
+  layers           = local.create_dependencies_layer ? [aws_lambda_layer_version.api_dependencies[0].arn] : []
 
   environment {
     variables = {

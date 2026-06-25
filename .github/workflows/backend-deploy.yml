@@ -224,4 +224,5 @@ jobs:
         working-directory: infra/terraform/live/services/api
         run: |
           API_LAMBDA_PACKAGE="${GITHUB_WORKSPACE}/apps/api/lambda_dist/morphix-api.zip" \
+          API_LAMBDA_LAYER_PACKAGE="${GITHUB_WORKSPACE}/apps/api/lambda_dist/morphix-api-dependencies.zip" \
             terragrunt apply -input=false -no-color -auto-approve

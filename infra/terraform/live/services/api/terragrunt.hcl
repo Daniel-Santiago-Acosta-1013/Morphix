@@ -45,6 +45,7 @@ inputs = {
   environment                     = local.root.locals.environment
   aws_region                      = local.root.locals.aws_region
   api_package_path                = get_env("API_LAMBDA_PACKAGE", "")
+  api_layer_package_path          = get_env("API_LAMBDA_LAYER_PACKAGE", "")
   state_machine_definition_path   = "${get_terragrunt_dir()}/../../../../../apps/api/state_machine_definition.json"
   jobs_table_name                 = dependency.jobs_db.outputs.jobs_table_name
   jobs_table_arn                  = dependency.jobs_db.outputs.jobs_table_arn
