@@ -1,3 +1,5 @@
+[English](README.md) | [Español](README.es.md)
+
 # Morphix
 
 Web app for asynchronous file conversion without external conversion APIs. React/Vite frontend, FastAPI API, Python conversion worker, Terraform/Terragrunt infrastructure, and GitHub Actions deployments.
